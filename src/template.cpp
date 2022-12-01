@@ -6,35 +6,24 @@
  * Notes
  */
 
-#include <vector>
+// #include <vector>
 
 #include <catch2/catch_test_macros.hpp>
 
 using namespace std;
 
 /**
- * n: length of the array
- * Time: O(n^2)
- * Space: O(n)
+ * n: length of
+ * Time: O()
+ * Space: O()
  */
-class Solution1 {
-public:
-    ;
-};
-
-/**
- * n: length of the array
- * Time: O(n)
- * Space: O(n)
- */
-class Solution2 {
+class Solution {
 public:
     ;
 };
 
 TEST_CASE("Title") {
-    // Solution1 s1;
-    // Solution2 s2;
+    // Solution s;
 
     SECTION("") {
         // vector<int> nums = {2, 7, 11, 15};
