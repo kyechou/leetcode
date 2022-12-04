@@ -4,7 +4,7 @@
  */
 
 #include <iostream>
-#include <set>
+#include <queue>
 #include <unordered_map>
 #include <vector>
 
@@ -12,48 +12,103 @@
 
 using namespace std;
 
+class Record {
+public:
+    int price;
+    bool expired;
+
+    Record(int p) : price(p), expired(false) {}
+};
+
+class RecordLT {
+public:
+    bool operator()(Record *const &a, Record *const &b) {
+        return a->price < b->price;
+    }
+};
+
+class RecordGT {
+public:
+    bool operator()(Record *const &a, Record *const &b) {
+        return a->price > b->price;
+    }
+};
+
 /**
  * n: Number of records
- * Time: update: O(log(n)), others: O(1)
+ * Time: average case O(1)
  * Space: O(n)
  */
 class StockPrice {
 private:
-    unordered_map<int, int> records; // timestamp -> price
-    multiset<int> sortedRecords;     // prices
+    vector<Record *> expiredRecords;
+    unordered_map<int, Record *> records; // timestamp -> price
+    priority_queue<Record *, vector<Record *>, RecordLT> maxq;
+    priority_queue<Record *, vector<Record *>, RecordGT> minq;
     int latestTimestamp;
     int latestPrice;
 
 public:
     StockPrice() : latestTimestamp(0), latestPrice(0) {}
+    ~StockPrice() {
+        for (auto rec : expiredRecords) {
+            delete rec;
+        }
+        for (auto [ts, rec] : records) {
+            delete rec;
+        }
+    }
 
     void update(int timestamp, int price) {
         auto it = records.find(timestamp);
         if (it == records.end()) {
             // Make a new record
-            records.emplace(timestamp, price);
-            sortedRecords.insert(price);
+            Record *rec = new Record(price);
+            records.emplace(timestamp, rec);
+            maxq.push(rec);
+            minq.push(rec);
+
             if (timestamp > latestTimestamp) {
                 latestTimestamp = timestamp;
                 latestPrice = price;
             }
         } else {
             // Update an existing record
-            int prevPrice = it->second;
-            it->second = price;
-            if (prevPrice != price) {
-                sortedRecords.erase(sortedRecords.find(prevPrice));
-                sortedRecords.insert(price);
-            }
-            if (latestTimestamp == timestamp) {
+            auto oldRec = it->second;
+            records.erase(it);
+            oldRec->expired = true;
+            expiredRecords.push_back(oldRec);
+
+            Record *newRec = new Record(price);
+            records.emplace(timestamp, newRec);
+            maxq.push(newRec);
+            minq.push(newRec);
+
+            if (timestamp == latestTimestamp) {
                 latestPrice = price;
             }
         }
     }
 
     int current() { return latestPrice; }
-    int maximum() { return *sortedRecords.rbegin(); }
-    int minimum() { return *sortedRecords.begin(); }
+
+    int maximum() {
+        Record *rec = maxq.top();
+        while (rec->expired) {
+            maxq.pop();
+            rec = maxq.top();
+        }
+        return rec->price;
+    }
+
+    int minimum() {
+        Record *rec = minq.top();
+        while (rec->expired) {
+            minq.pop();
+            rec = minq.top();
+        }
+        return rec->price;
+    }
 };
 
 TEST_CASE("Title") {
@@ -66,8 +121,5 @@ TEST_CASE("Title") {
         s.update(43, 121);
         s.update(40, 5339);
         REQUIRE(s.current() == 1866);
-        // vector<int> nums = {2, 7, 11, 15};
-        // REQUIRE(s1.twoSum(nums, 9) == vector<int>({0, 1}));
-        // REQUIRE(s2.twoSum(nums, 9) == vector<int>({0, 1}));
     }
 }
