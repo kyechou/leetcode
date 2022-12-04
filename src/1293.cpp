@@ -3,10 +3,10 @@
  * https://leetcode.com/problems/shortest-path-in-a-grid-with-obstacles-elimination/
  */
 
-#include <limits>
 #include <iostream>
-#include <unordered_map>
+#include <limits>
 #include <queue>
+#include <unordered_map>
 #include <vector>
 
 #include <catch2/catch_test_macros.hpp>
@@ -63,7 +63,8 @@ public:
 
             // Up
             if (node.x > 0) {
-                Node newNode(node.x - 1, node.y, node.k + grid[node.x - 1][node.y]);
+                Node newNode(node.x - 1, node.y,
+                             node.k + grid[node.x - 1][node.y]);
                 int newSteps = steps + 1;
                 if (newNode.k <= k && !explored(newNode, newSteps)) {
                     cost[newNode.x][newNode.y][newNode.k] = newSteps;
@@ -72,7 +73,8 @@ public:
             }
             // Down
             if (node.x < grid.size() - 1) {
-                Node newNode(node.x + 1, node.y, node.k + grid[node.x + 1][node.y]);
+                Node newNode(node.x + 1, node.y,
+                             node.k + grid[node.x + 1][node.y]);
                 int newSteps = steps + 1;
                 if (newNode.k <= k && !explored(newNode, newSteps)) {
                     cost[newNode.x][newNode.y][newNode.k] = newSteps;
@@ -81,7 +83,8 @@ public:
             }
             // Left
             if (node.y > 0) {
-                Node newNode(node.x, node.y - 1, node.k + grid[node.x][node.y - 1]);
+                Node newNode(node.x, node.y - 1,
+                             node.k + grid[node.x][node.y - 1]);
                 int newSteps = steps + 1;
                 if (newNode.k <= k && !explored(newNode, newSteps)) {
                     cost[newNode.x][newNode.y][newNode.k] = newSteps;
@@ -90,7 +93,8 @@ public:
             }
             // Right
             if (node.y < grid[node.x].size() - 1) {
-                Node newNode(node.x, node.y + 1, node.k + grid[node.x][node.y + 1]);
+                Node newNode(node.x, node.y + 1,
+                             node.k + grid[node.x][node.y + 1]);
                 int newSteps = steps + 1;
                 if (newNode.k <= k && !explored(newNode, newSteps)) {
                     cost[newNode.x][newNode.y][newNode.k] = newSteps;
