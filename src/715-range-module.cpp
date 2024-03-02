@@ -3,7 +3,6 @@
  * https://leetcode.com/problems/range-module/
  */
 
-#include <cmath>
 #include <set>
 #include <vector>
 
@@ -77,7 +76,7 @@ public:
             }
         }
 
-        ranges.insert(it, move(newRange));
+        ranges.insert(it, std::move(newRange));
     }
 
     bool queryRange(int left, int right) {
@@ -101,10 +100,10 @@ public:
             Range r2(targetRange.end, it->end);
 
             if (!r1.empty()) {
-                rangesToBeInserted.emplace_back(move(r1));
+                rangesToBeInserted.emplace_back(std::move(r1));
             }
             if (!r2.empty()) {
-                rangesToBeInserted.emplace_back(move(r2));
+                rangesToBeInserted.emplace_back(std::move(r2));
             }
         }
 

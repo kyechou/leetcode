@@ -77,8 +77,8 @@ public:
                     }
                 }
             }
-            result.emplace_back(move(leafValues));
-            currentLeaves = move(nextLeaves);
+            result.emplace_back(std::move(leafValues));
+            currentLeaves = std::move(nextLeaves);
             nextLeaves.clear();
         }
 

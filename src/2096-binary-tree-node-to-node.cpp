@@ -65,13 +65,13 @@ public:
                 Node nextNode(node);
                 nextNode.frontier = node.frontier->left;
                 nextNode.append('L');
-                q.emplace(move(nextNode));
+                q.emplace(std::move(nextNode));
             }
             if (node.frontier->right) {
                 Node nextNode(node);
                 nextNode.frontier = node.frontier->right;
                 nextNode.append('R');
-                q.emplace(move(nextNode));
+                q.emplace(std::move(nextNode));
             }
         }
 

@@ -10,7 +10,6 @@
  */
 
 #include <algorithm>
-#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -68,7 +67,7 @@ TEST_CASE("3Sum") {
         vector<int> nums = {-1, 0, 1, 2, -1, -4};
         REQUIRE(s.threeSum(nums) == vector<vector<int>>({
                                         {-1, -1, 2},
-                                        {-1,  0, 1}
+                                        {-1, 0,  1}
         }));
     }
     SECTION("") {
@@ -81,11 +80,11 @@ TEST_CASE("3Sum") {
         vector<int> nums = {-4, -2, -2, -2, 0, 1, 2, 2, 2, 3, 3, 4, 4, 6, 6};
         REQUIRE(s.threeSum(nums) == vector<vector<int>>({
                                         {-4, -2, 6},
-                                        {-4,  0, 4},
-                                        {-4,  1, 3},
-                                        {-4,  2, 2},
+                                        {-4, 0,  4},
+                                        {-4, 1,  3},
+                                        {-4, 2,  2},
                                         {-2, -2, 4},
-                                        {-2,  0, 2}
+                                        {-2, 0,  2}
         }));
     }
     SECTION("") {

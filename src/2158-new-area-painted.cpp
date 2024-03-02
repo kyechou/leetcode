@@ -3,8 +3,6 @@
  * https://leetcode.com/problems/amount-of-new-area-painted-each-day/
  */
 
-#include <cmath>
-#include <iostream>
 #include <set>
 #include <vector>
 

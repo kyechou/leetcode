@@ -1,0 +1,21 @@
+# [requires]
+# boost/1.82.0
+# rapidjson/cci.20220822
+# spdlog/1.11.0
+# tomlplusplus/3.3.0
+# xxhash/0.8.1
+
+[tool_requires]
+cmake/[>=3.26]
+ninja/1.11.1
+pkgconf/1.9.3
+
+[test_requires]
+catch2/3.3.2
+
+[generators]
+CMakeDeps
+CMakeToolchain
+
+[layout]
+cmake_layout

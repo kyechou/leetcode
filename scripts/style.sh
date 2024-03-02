@@ -1,13 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -euo pipefail
 
 msg() {
     echo -e "[+] ${1-}" >&2
-}
-
-hurt() {
-    echo -e "[-] ${1-}" >&2
 }
 
 die() {
@@ -36,7 +32,10 @@ EOF
 parse_params() {
     while :; do
         case "${1-}" in
-        -h | --help) usage; exit ;;
+        -h | --help)
+            usage
+            exit
+            ;;
         -f | --overwrite)
             OVERWRITE=1
             ;;
@@ -50,24 +49,25 @@ parse_params() {
 main() {
     OVERWRITE=0
     parse_params "$@"
-    check_depends clang-format
+
+    CLANG_FORMAT=clang-format
+    check_depends "$CLANG_FORMAT"
 
     SCRIPT_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
-    SRC_DIR="$(realpath "${SCRIPT_DIR}"/src)"
-    # TEST_DIR="$(realpath "${SCRIPT_DIR}"/test)"
+    SRC_DIR="$(realpath "${SCRIPT_DIR}"/../src)"
+    TARGET_DIRS=("$SRC_DIR")
 
-    if [ $OVERWRITE -eq 0 ]; then
+    if [[ $OVERWRITE -eq 0 ]]; then
         # C++: clang-format
-        find "$SRC_DIR" -type f -regex '.*\.\(c\|h\|cpp\|hpp\)' \
-            -exec clang-format --Werror --dry-run {} +
+        find "${TARGET_DIRS[@]}" -type f -regex '.*\.\(c\|h\|cpp\|hpp\)' \
+            -exec $CLANG_FORMAT --Werror --dry-run {} +
         msg "Coding style is compliant"
     else
         # C++: clang-format
-        find "$SRC_DIR" -type f -regex '.*\.\(c\|h\|cpp\|hpp\)' \
-            -exec clang-format --Werror -i {} +
+        find "${TARGET_DIRS[@]}" -type f -regex '.*\.\(c\|h\|cpp\|hpp\)' \
+            -exec $CLANG_FORMAT --Werror -i {} +
     fi
 }
-
 
 main "$@"
 

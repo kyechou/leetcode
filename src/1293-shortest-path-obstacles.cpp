@@ -3,8 +3,6 @@
  * https://leetcode.com/problems/shortest-path-in-a-grid-with-obstacles-elimination/
  */
 
-#include <iostream>
-#include <limits>
 #include <queue>
 #include <unordered_map>
 #include <vector>
@@ -68,7 +66,7 @@ public:
                 int newSteps = steps + 1;
                 if (newNode.k <= k && !explored(newNode, newSteps)) {
                     cost[newNode.x][newNode.y][newNode.k] = newSteps;
-                    q.emplace(move(newNode));
+                    q.emplace(std::move(newNode));
                 }
             }
             // Down
@@ -78,7 +76,7 @@ public:
                 int newSteps = steps + 1;
                 if (newNode.k <= k && !explored(newNode, newSteps)) {
                     cost[newNode.x][newNode.y][newNode.k] = newSteps;
-                    q.emplace(move(newNode));
+                    q.emplace(std::move(newNode));
                 }
             }
             // Left
@@ -88,7 +86,7 @@ public:
                 int newSteps = steps + 1;
                 if (newNode.k <= k && !explored(newNode, newSteps)) {
                     cost[newNode.x][newNode.y][newNode.k] = newSteps;
-                    q.emplace(move(newNode));
+                    q.emplace(std::move(newNode));
                 }
             }
             // Right
@@ -98,7 +96,7 @@ public:
                 int newSteps = steps + 1;
                 if (newNode.k <= k && !explored(newNode, newSteps)) {
                     cost[newNode.x][newNode.y][newNode.k] = newSteps;
-                    q.emplace(move(newNode));
+                    q.emplace(std::move(newNode));
                 }
             }
         }
