@@ -9,6 +9,7 @@
  */
 
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 #include <catch2/catch_test_macros.hpp>
@@ -42,6 +43,17 @@ public:
  */
 class Solution2 {
 public:
+    bool hasTwoSum(vector<int> &nums, int target) {
+        unordered_set<int> seen;
+        for (int num : nums) {
+            if (seen.count(target - num) > 0) {
+                return true;
+            }
+            seen.insert(num);
+        }
+        return false;
+    }
+
     vector<int> twoSum(vector<int> &nums, int target) {
         unordered_multimap<int, int> num2idx; // hash table
 
